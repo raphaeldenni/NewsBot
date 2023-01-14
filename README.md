@@ -12,7 +12,7 @@ You also need to provide 2 variables :
 - `token` : a Discord's bot token
 - `api_key` : an api key from <a href="https://newsapi.org/">News API</a>
 
-You can store the variables above mentioned into a `.env` file with the following format :
+You can store the variables above-mentioned into a `.env` file with the following format :
 ```dotenv
 TOKEN=[your_token]
 API_KEY=[your_api_key]
