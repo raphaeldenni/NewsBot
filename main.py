@@ -1,19 +1,7 @@
 # News Bot by Raphaël DENNI aka SlyEyes
 
 # Import
-import discord
-
-from os import getenv, putenv
-
-from dotenv import load_dotenv
-
-from time import sleep
-
-from json import loads
-
-from datetime import datetime
-
-import requests
+from  assets.imports  import  *
 
 # Variables
 load_dotenv()
@@ -22,66 +10,10 @@ token = getenv('TOKEN')
 
 bot = discord.Bot(debug_guilds=[714560415958302780])
 
-
-# Functions
-async def embed_msg(ctx, title, message, color=0xff0000, ephemeral=True):
-    embed = discord.Embed(title=title, description=message, color=color)
-
-    await ctx.respond(embed=embed, ephemeral=ephemeral)
-
-
-async def api_request(ctx, sources, keyword):
-    api_key = getenv('API_KEY')
-
-    if api_key is None:
-        await embed_msg(
-            ctx,
-            "API key error",
-            "You need to set your API key first !"
+embed_list = discord.Embed(
+            title="Fresh news !",
+            color=0x0000ff,
         )
-
-        return None
-
-    # Request's URL
-    api_url = \
-        f"https://newsapi.org/v2/everything" \
-        f"?domains={sources}" \
-        f"&q={keyword}" \
-        f"&sortBy=publishedAt" \
-        f"&sortBy=popularity" \
-        f"&apiKey={api_key}"
-
-    # Request to News API
-    try:
-        req = requests.get(api_url)
-
-    except ConnectionError as err:
-        await embed_msg(
-            ctx,
-            "Connection error",
-            f"Can't connect to the API ! Verify your API key and try again !\nDetail : \n{err}"
-        )
-
-        return None
-
-    else:
-        # JSON data to Python dictionary
-        content = loads(req.content)
-
-        if content['status'] == 'error' and content['code'] == 'apiKeyInvalid':
-            await embed_msg(
-                ctx,
-                "API key error",
-                "Your API key is invalid ! Verify your API key and try again !"
-            )
-
-            return None
-
-        # Collect articles' data and send it to Discord
-        total_results = str(content['totalResults'])
-
-        return content
-
 
 @bot.event
 async def on_ready():
@@ -144,86 +76,53 @@ async def slist(ctx):
 
 
 @bot.slash_command(name="news", description="Give fresh news")
-async def news(ctx, limit: discord.Option(int), sources: discord.Option(str), keyword: discord.Option(str),
-               is_list: discord.Option(bool)):
+async def news(ctx, limit: discord.Option(int), sources: discord.Option(str), keyword: discord.Option(str)):
     content = await api_request(ctx, sources, keyword)
 
     if content is None:
         return
 
-    if is_list is False:
-        for article in content['articles']:
-            if limit == 0:
-                break
-            elif limit > 5:
-                await embed_msg(
-                    ctx,
-                    "Limit error",
-                    "Too many articles requested ! The maximum limit is 5."
-                )
-                break
-
-            sleep(1)
-
-            name = article['source']['name']
-            author = article['author']
-            title = article['title']
-            description = article['description']
-            url = article['url']
-            url_to_image = article['urlToImage']
-            published_at = article['publishedAt']
-
-            published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%SZ")
-
-            if author is None:
-                author = name
-
-            embed = discord.Embed(
-                title=title,
-                url=url,
-                description=description,
-                timestamp=published_at,
-                color=0xffff00
+    for article in content['articles']:
+        if limit == 0:
+            break
+        elif limit > 5:
+            await embed_msg(
+                ctx,
+                "Limit error",
+                "Too many articles requested ! The maximum limit is 5."
             )
-            embed \
-                .set_author(name=name) \
-                .set_image(url=url_to_image) \
-                .set_footer(text=f"Publié par {author}")
+            break
 
-            await ctx.respond(embed=embed)
+        sleep(1)
 
-            limit -= 1
+        name = article['source']['name']
+        author = article['author']
+        title = article['title']
+        description = article['description']
+        url = article['url']
+        url_to_image = article['urlToImage']
+        published_at = article['publishedAt']
 
-    elif is_list is True:
+        published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%SZ")
+
+        if author is None:
+            author = name
+
         embed = discord.Embed(
-            title="Fresh news !",
-            color=discord.Colour.blue(),
+            title=title,
+            url=url,
+            description=description,
+            timestamp=published_at,
+            color=0xffff00
         )
-
-        for article in content['articles']:
-            if limit == 0:
-                break
-
-            sleep(1)
-
-            name = article['source']['name']
-            title = article['title']
-            description = article['description']
-            published_at = article['publishedAt']
-
-            published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%SZ")
-
-            embed.set_field_at(name=f"{title} sur {name}", value=f"{description}\nPublication: {published_at}",
-                               inline=True)
+        embed \
+            .set_author(name=name) \
+            .set_image(url=url_to_image) \
+            .set_footer(text=f"Publié par {author}")
 
         await ctx.respond(embed=embed)
 
-    else:
-        await embed_msg(
-            ctx,
-            "Parameter error",
-            "Wrong parameter for \"is_list\". The available parameter are \"True\" or \"False\""
-        )
+        limit -= 1
 
 bot.run(token)
 
