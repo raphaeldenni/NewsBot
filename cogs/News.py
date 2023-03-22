@@ -1,6 +1,4 @@
-import discord
-
-from assets.imports import *
+from assets.imports import discord, commands, load_dotenv, getenv, datetime, sleep, embed_msg, api_request
 
 
 class News(commands.Cog):

@@ -1,4 +1,4 @@
-from assets.imports import *
+from assets.imports import requests, loads, getenv, embed_msg
 
 
 async def api_request(interaction, sources, keyword):

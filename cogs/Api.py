@@ -1,4 +1,4 @@
-from assets.imports import *
+from assets.imports import discord, commands, load_dotenv, getenv, putenv, embed_msg
 
 
 class Api(commands.Cog):

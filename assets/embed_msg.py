@@ -1,4 +1,4 @@
-from assets.imports import *
+from assets.imports import discord
 
 
 async def embed_msg(interaction, title, message, color, ephemeral=True):

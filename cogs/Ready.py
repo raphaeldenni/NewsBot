@@ -1,4 +1,4 @@
-from assets.imports import *
+from assets.imports import commands
 
 
 class Ready(commands.Cog):
