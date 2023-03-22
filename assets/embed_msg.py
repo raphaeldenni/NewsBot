@@ -1,9 +1,17 @@
 from assets.imports import *
 
-async def embed_msg(ctx, title, message, color=0xff0000, ephemeral=True):
+
+async def embed_msg(interaction, title, message, color, ephemeral=True):
+    if color == "red":
+        color = 0xff0000
+    elif color == "yellow":
+        color = 0xffff00
+    else:
+        color = 0x00ff00
+
     embed = discord.Embed(title=title, description=message, color=color)
 
-    await ctx.respond(embed=embed, ephemeral=ephemeral)
+    await interaction.response.send_message(embed=embed, ephemeral=ephemeral)
 
     """
        Copyright 2022 Raphaël Denni

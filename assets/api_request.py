@@ -1,11 +1,12 @@
 from assets.imports import *
 
-async def api_request(ctx, sources, keyword):
+
+async def api_request(interaction, sources, keyword):
     api_key = getenv('API_KEY')
 
     if api_key is None:
         await embed_msg(
-            ctx,
+            interaction,
             "API key error",
             "You need to set your API key first !"
         )
@@ -27,7 +28,7 @@ async def api_request(ctx, sources, keyword):
 
     except ConnectionError as err:
         await embed_msg(
-            ctx,
+            interaction,
             "Connection error",
             f"Can't connect to the API ! Verify your API key and try again !\nDetail : \n{err}"
         )
@@ -40,7 +41,7 @@ async def api_request(ctx, sources, keyword):
 
         if content['status'] == 'error' and content['code'] == 'apiKeyInvalid':
             await embed_msg(
-                ctx,
+                interaction,
                 "API key error",
                 "Your API key is invalid ! Verify your API key and try again !"
             )
@@ -51,6 +52,7 @@ async def api_request(ctx, sources, keyword):
         total_results = str(content['totalResults'])
 
         return content
+
 
 """
    Copyright 2022 Raphaël Denni

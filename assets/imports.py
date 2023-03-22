@@ -1,6 +1,8 @@
 import discord
 
-from os import getenv, putenv
+from discord.ext import commands
+
+from os import getenv, putenv, listdir
 
 from dotenv import load_dotenv
 
