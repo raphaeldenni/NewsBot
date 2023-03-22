@@ -18,7 +18,7 @@ for file in listdir("./cogs"):
 client.run(token)
 
 """
-   Copyright 2022 Raphaël Denni
+   Copyright 2022-2023 Raphaël Denni
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
