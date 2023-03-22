@@ -12,10 +12,8 @@ class Ping(commands.Cog):
     # Ping command
     @commands.slash_command(name="ping", description="Pong !", guild_ids=debug_guilds)
     async def ping(self, interaction: discord.Interaction):
-        client = commands.Bot(intents=discord.Intents.default())
-
         # Calculate the latency
-        pong = round(client.latency, 3) * 1000
+        pong = round(self.client.latency, 3) * 1000
 
         # Send the latency
         await embed_msg(
