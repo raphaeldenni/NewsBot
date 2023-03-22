@@ -1,7 +1,7 @@
 # News Bot by Raphaël DENNI aka SlyEyes
 
 # Import
-from assets.imports import *
+from assets.imports import discord, commands, load_dotenv, getenv, listdir
 
 # Variables
 load_dotenv()
