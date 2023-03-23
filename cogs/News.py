@@ -16,6 +16,12 @@ class News(commands.Cog):
         content = await api_request(interaction, sources, keyword)
 
         if content is None:
+            await embed_msg(
+                interaction,
+                "No articles found",
+                "No articles found for this keyword and/or source.",
+                "red"
+            )
             return
 
         for article in content['articles']:
@@ -25,7 +31,8 @@ class News(commands.Cog):
                 await embed_msg(
                     interaction,
                     "Limit error",
-                    "Too many articles requested ! The maximum limit is 5."
+                    "Too many articles requested ! The maximum limit is 5.",
+                    "red"
                 )
                 break
 
