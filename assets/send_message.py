@@ -14,16 +14,18 @@ async def send_message(
         interaction (discord.Interaction): The interaction object
         title (str): The title of the embed message
         message (str): The content of the embed message
-        importance (str, optional): The importance of the message. Defaults to "normal".
+        importance (str, optional): The importance of the message. Can be "error", "info" or "normal". Defaults to "normal".
         is_ephemeral (bool, optional): If the message is ephemeral. Defaults to False.
     """
     match importance:
-        case "error":
-            color = 0xFF0000  # Red
-        case "info":
-            color = 0xFFFF00  # Yellow
         case "normal":
             color = 0x00FF00  # Green
+        case "info":
+            color = 0xFFFF00  # Yellow
+        case "error":
+            color = 0xFF0000  # Red
+        case _:
+            color = 0x000000  # Black
 
     embed_msg = discord.Embed(title, message, color)
 
