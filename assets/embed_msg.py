@@ -1,30 +1,30 @@
-from assets.imports import discord
+import discord
 
 
-async def embed_msg(interaction, title, message, color, ephemeral=True):
-    if color == "red":
-        color = 0xff0000
-    elif color == "yellow":
-        color = 0xffff00
-    else:
-        color = 0x00ff00
+async def embed_msg(
+    interaction: discord.Interaction,
+    title: str,
+    message: str,
+    color_choice: str = "",
+    is_ephemeral: bool = True,
+) -> None:
+    """Send an embed message to Discord
 
-    embed = discord.Embed(title=title, description=message, color=color)
+    Args:
+        interaction (discord.Interaction): The interaction object
+        title (str): The title of the embed message
+        message (str): The content of the embed message
+        color_choice (str): The color of the embed message
+        is_ephemeral (bool, optional): If the message is ephemeral. Defaults to True.
+    """
+    match color_choice:
+        case "red":
+            color = 0xFF0000
+        case "yellow":
+            color = 0xFFFF00
+        case _:
+            color = 0x00FF00
 
-    await interaction.response.send_message(embed=embed, ephemeral=ephemeral)
+    embed_msg = discord.Embed(title, message, color)
 
-"""
-   Copyright 2022-2023 Raphaël Denni
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-"""
+    await interaction.response.send_message(embed_msg, is_ephemeral)

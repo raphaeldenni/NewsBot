@@ -1,34 +1,30 @@
-# News Bot by Raphaël DENNI aka SlyEyes
+# ======================== #
+# NewsBot by Raphaël Denni #
+# ======================== #
 
-# Import
-from assets.imports import discord, commands, load_dotenv, getenv, listdir
+from os import getenv, listdir
 
-# Variables
-load_dotenv()
-token = getenv('TOKEN')
+from discord import Intents
+from discord.ext import commands
+from dotenv import load_dotenv
 
-# Create the client
-client = commands.Bot(intents=discord.Intents.default())
 
-# Load cogs
-for file in listdir("./cogs"):
-    if file.endswith(".py"):
-        client.load_extension("cogs." + file[:-3])
+def main() -> None:
+    load_dotenv()
+    token = getenv("TOKEN")
 
-client.run(token)
+    if token is None:
+        raise ValueError("No token found")
 
-"""
-   Copyright 2022-2023 Raphaël Denni
+    client = commands.Bot(intents=Intents.default())
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+    # Load commands
+    for file in listdir("./cogs"):
+        if file.endswith(".py"):
+            client.load_extension("cogs." + file[:-3])
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    client.run(token)
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-"""
+
+if __name__ == "__main__":
+    main()
