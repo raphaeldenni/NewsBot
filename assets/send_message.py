@@ -19,13 +19,13 @@ async def send_message(
     """
     match importance:
         case "normal":
-            color = 0x00FF00  # Green
+            color = discord.Color.blue()
         case "info":
-            color = 0xFFFF00  # Yellow
+            color = discord.Color.yellow()
         case "error":
-            color = 0xFF0000  # Red
+            color = discord.Color.red()
         case _:
-            color = 0x000000  # Black
+            color = discord.Color.default()
 
     embed_msg = discord.Embed(title, message, color)
 
