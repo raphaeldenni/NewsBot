@@ -4,7 +4,7 @@ from os import getenv
 import discord
 import requests
 
-from assets.embed_msg import embed_msg
+from assets.send_message import send_message
 
 
 async def api_request(
@@ -23,8 +23,12 @@ async def api_request(
     api_key = getenv("API_KEY")
 
     if api_key is None:
-        await embed_msg(
-            interaction, "API key error", "You need to set your API key first !"
+        await send_message(
+            interaction,
+            "API key error",
+            "You need to set your API key first !",
+            "error",
+            is_ephemeral=True,
         )
 
         return None
@@ -44,10 +48,12 @@ async def api_request(
         req = requests.get(api_url)
 
     except ConnectionError as err:
-        await embed_msg(
+        await send_message(
             interaction,
             "Connection error",
             f"Can't connect to the API ! Verify your API key and try again !\nDetail : \n{err}",
+            "error",
+            is_ephemeral=True,
         )
 
         return None
@@ -57,10 +63,12 @@ async def api_request(
         content = loads(req.content)
 
         if content["status"] == "error" and content["code"] == "apiKeyInvalid":
-            await embed_msg(
+            await send_message(
                 interaction,
                 "API key error",
                 "Your API key is invalid ! Verify your API key and try again !",
+                "error",
+                is_ephemeral=True,
             )
 
             return None

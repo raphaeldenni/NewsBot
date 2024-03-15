@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from assets.embed_msg import embed_msg
+from assets.send_message import send_message
 
 
 class Ping(commands.Cog):
@@ -16,19 +16,24 @@ class Ping(commands.Cog):
     load_dotenv()
     debug_guilds = [int(getenv("DEBUG_GUILD"))]
 
-    # Ping command
-    @commands.slash_command(name="ping", description="Pong !", guild_ids=debug_guilds)
-    async def ping(self, interaction: discord.Interaction):
+    @commands.slash_command(
+        name="ping",
+        description="Pong !",
+        guild_ids=debug_guilds,
+    )
+    async def ping(
+        self,
+        interaction: discord.Interaction,
+    ):
         # Calculate the latency
         pong = round(self.client.latency, 3) * 1000
 
         # Send the latency
-        await embed_msg(
+        await send_message(
             interaction,
             "Pong ! :ping_pong:",
-            f"The latency is {pong} ms",
+            f"There is {pong} ms of latency",
             "yellow",
-            False,
         )
 
 

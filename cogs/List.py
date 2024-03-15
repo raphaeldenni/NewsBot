@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from assets.embed_msg import embed_msg
+from assets.send_message import send_message
 
 
 class List(commands.Cog):
@@ -22,8 +22,12 @@ class List(commands.Cog):
         guild_ids=debug_guilds,
     )
     async def slist(self, interaction: discord.Interaction):
-        await embed_msg(
-            interaction, "There is a list of possible sources :", "", "yellow", False
+        await send_message(
+            interaction,
+            "Here a list of possible sources :",
+            "",
+            "yellow",
+            is_ephemeral=True,
         )
 
 

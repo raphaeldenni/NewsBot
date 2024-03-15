@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from assets.embed_msg import embed_msg
+from assets.send_message import send_message
 
 # NOTE: Not secure and doesn't work, think to delete this command
 
@@ -19,7 +19,9 @@ class Api(commands.Cog):
     debug_guilds = [int(getenv("DEBUG_GUILD"))]
 
     @commands.slash_command(
-        name="api", description="Set your API key", guild_ids=debug_guilds
+        name="api",
+        description="Set your API key",
+        guild_ids=debug_guilds,
     )
     async def api(self, interaction: discord.Interaction, key: discord.Option(str)):
         # Check if the key is valid
@@ -35,8 +37,12 @@ class Api(commands.Cog):
                     # syntax error
                     pass
 
-        await embed_msg(
-            interaction, "API key set", "Your API key is now set !", "yellow"
+        await send_message(
+            interaction,
+            "API key set",
+            "Your API key is now set !",
+            "yellow",
+            is_ephemeral=True,
         )
 
 
