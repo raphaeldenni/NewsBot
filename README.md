@@ -1,19 +1,34 @@
-# News_Bot
-A bot to use the News API in Discord !
+# NewsBot
+
+A bot to use the [News API]("https://newsapi.org/") in Discord !
 
 ## Requirements
 
-You need to install the following Python module with pip : 
-- Pycord (2.0.0 or above) : `python -m pip install py-cord`
-- python-dotenv (latest) : `python -m pip install python-dotenv`
-- Requests (latest) : `python -m pip install requests`
+The following modules are required:
 
-You also need to provide 2 variables :
-- `token` : a Discord's bot token
-- `api_key` : an api key from <a href="https://newsapi.org/">News API</a>
+- Pycord (2.0.0 or above)
+- python-dotenv (latest)
+- Requests (latest)
 
-You can store the variables above-mentioned into a `.env` file with the following format :
-```dotenv
-TOKEN=[your_token]
-API_KEY=[your_api_key]
+All of them are listed in `pyproject.toml` and `requirements.txt`
+
+You also need to provide 2 variables in a `.env` file:
+
+- `TOKEN` : a Discord's bot token
+- `API_KEY` : an api key from [News API]("https://newsapi.org/")
+
+## Installation
+
+Don't forget to use Poetry integrated environments or venv with pip
+
+### Poetry (Recommended)
+
+```sh
+poetry install
+```
+
+### Pip
+
+```sh
+pip install -r requirements.txt
 ```
