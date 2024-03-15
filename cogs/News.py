@@ -39,7 +39,7 @@ class News(commands.Cog):
                 interaction,
                 "No articles found",
                 "No articles found for this keyword and/or source.",
-                "red",
+                "info",
                 is_ephemeral=True,
             )
 
@@ -53,7 +53,7 @@ class News(commands.Cog):
                     interaction,
                     "Limit error",
                     "Too many articles requested ! The maximum limit is 5.",
-                    "red",
+                    "error",
                     is_ephemeral=True,
                 )
 

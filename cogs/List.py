@@ -26,7 +26,6 @@ class List(commands.Cog):
             interaction,
             "Here a list of possible sources :",
             "",
-            "yellow",
             is_ephemeral=True,
         )
 

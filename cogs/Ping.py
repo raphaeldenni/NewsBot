@@ -21,19 +21,15 @@ class Ping(commands.Cog):
         description="Pong !",
         guild_ids=debug_guilds,
     )
-    async def ping(
-        self,
-        interaction: discord.Interaction,
-    ):
+    async def ping(self, interaction: discord.Interaction):
         # Calculate the latency
-        pong = round(self.client.latency, 3) * 1000
+        latency = round(self.client.latency, 3) * 1000
 
         # Send the latency
         await send_message(
             interaction,
             "Pong ! :ping_pong:",
-            f"There is {pong} ms of latency",
-            "yellow",
+            f"{latency} ms of latency",
         )
 
 
