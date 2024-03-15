@@ -31,9 +31,9 @@ async def api_request(
             is_ephemeral=True,
         )
 
-        return None
+        return
 
-    # Request's URL
+    # Construct the API request URL
     api_url = (
         f"https://newsapi.org/v2/everything"
         f"?domains={sources}"
@@ -43,37 +43,35 @@ async def api_request(
         f"&apiKey={api_key}"
     )
 
-    # Request to News API
+    # Send the request
     try:
         req = requests.get(api_url)
 
-    except ConnectionError as err:
+    except ConnectionError as error:
         await send_message(
             interaction,
             "Connection error",
-            f"Can't connect to the API ! Verify your API key and try again !\nDetail : \n{err}",
+            f"Can't connect to the API ! Verify your API key and try again !\n"
+            f"Details: \n{error}",
             "error",
             is_ephemeral=True,
         )
 
-        return None
+        return
 
     else:
-        # JSON data to Python dictionary
+        # Transform the request content to a dictionary
         content = loads(req.content)
 
         if content["status"] == "error" and content["code"] == "apiKeyInvalid":
             await send_message(
                 interaction,
                 "API key error",
-                "Your API key is invalid ! Verify your API key and try again !",
+                "Your API key is invalid ! Verify it and try again !",
                 "error",
                 is_ephemeral=True,
             )
 
-            return None
-
-        # Collect articles' data and send it to Discord
-        total_results = str(content["totalResults"])
+            return
 
         return content
