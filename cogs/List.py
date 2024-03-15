@@ -1,6 +1,5 @@
 from os import getenv
 
-import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -23,7 +22,7 @@ class List(commands.Cog):
         description="A list of keywords for the news cogs",
         guild_ids=debug_guilds,
     )
-    async def slist(self, interaction: discord.Interaction) -> None:
+    async def slist(self, interaction) -> None:
         await send_message(
             interaction,
             "Here a list of possible sources :",

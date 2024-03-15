@@ -1,6 +1,5 @@
 # from os import getenv, putenv
 
-import discord
 from discord.ext import commands
 
 # from dotenv import load_dotenv
@@ -25,7 +24,7 @@ class Api(commands.Cog):
         #        description="Set your API key",
         #        guild_ids=debug_guilds,
     )
-    async def api(self, interaction: discord.Interaction) -> None:
+    async def api(self, interaction) -> None:
         # , key: discord.Option(str)):
         # Check if the key is valid
         await send_message(

@@ -27,6 +27,6 @@ async def send_message(
         case _:
             color = discord.Color.default()
 
-    embed_msg = discord.Embed(title, message, color)
+    embed_message = discord.Embed(title=title, description=message, color=color)
 
-    await interaction.response.send_message(embed_msg, is_ephemeral)
+    await interaction.response.send_message(embed=embed_message, ephemeral=is_ephemeral)

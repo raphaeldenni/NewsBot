@@ -4,7 +4,7 @@
 
 from os import getenv, listdir
 
-from discord import Intents
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -16,7 +16,7 @@ def main() -> None:
     if token is None:
         raise ValueError("No token found")
 
-    client = commands.Bot(intents=Intents.default())
+    client = commands.Bot(intents=discord.Intents.default())
 
     # Load commands
     for file in listdir("./cogs"):

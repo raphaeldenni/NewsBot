@@ -29,7 +29,7 @@ class News(commands.Cog):
     )
     async def news(
         self,
-        interaction: discord.Interaction,
+        interaction,
         limit: discord.Option(int),
         sources: discord.Option(str),
         keyword: discord.Option(str),

@@ -1,6 +1,5 @@
 from os import getenv
 
-import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -23,7 +22,7 @@ class Ping(commands.Cog):
         description="Pong !",
         guild_ids=debug_guilds,
     )
-    async def ping(self, interaction: discord.Interaction) -> None:
+    async def ping(self, interaction) -> None:
         # Calculate the latency
         latency = round(self.client.latency, 3) * 1000
 
