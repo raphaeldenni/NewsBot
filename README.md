@@ -6,9 +6,9 @@ A bot to use the [News API]("https://newsapi.org/") in Discord !
 
 The following modules are required:
 
-- Pycord (2.0.0 or above)
-- python-dotenv (latest)
-- Requests (latest)
+- py-cord (^2.4.1)
+- python-dotenv (^1.0.0)
+- requests (^2.31.0)
 
 All of them are listed in `pyproject.toml` and `requirements.txt`
 
