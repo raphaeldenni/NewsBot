@@ -12,7 +12,9 @@ from assets.send_message import send_message
 class Api(commands.Cog):
     """Command to set the API key"""
 
-    def __init__(self, client):
+    client: commands.Bot = None
+
+    def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
     #    load_dotenv()
@@ -23,9 +25,8 @@ class Api(commands.Cog):
         #        description="Set your API key",
         #        guild_ids=debug_guilds,
     )
-    async def api(
-        self, interaction: discord.Interaction
-    ):  # , key: discord.Option(str)):
+    async def api(self, interaction: discord.Interaction) -> None:
+        # , key: discord.Option(str)):
         # Check if the key is valid
         await send_message(
             interaction,
@@ -57,5 +58,5 @@ class Api(commands.Cog):
 #        )
 
 
-def setup(client):
+def setup(client: commands.Bot) -> None:
     client.add_cog(Api(client))

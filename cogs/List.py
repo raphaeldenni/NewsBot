@@ -10,7 +10,9 @@ from assets.send_message import send_message
 class List(commands.Cog):
     """Command to list the possible sources"""
 
-    def __init__(self, client):
+    client: commands.Bot = None
+
+    def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
     load_dotenv()
@@ -21,7 +23,7 @@ class List(commands.Cog):
         description="A list of keywords for the news cogs",
         guild_ids=debug_guilds,
     )
-    async def slist(self, interaction: discord.Interaction):
+    async def slist(self, interaction: discord.Interaction) -> None:
         await send_message(
             interaction,
             "Here a list of possible sources :",
@@ -30,5 +32,5 @@ class List(commands.Cog):
         )
 
 
-def setup(client):
+def setup(client: commands.Bot) -> None:
     client.add_cog(List(client))

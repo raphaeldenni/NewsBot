@@ -13,11 +13,13 @@ from assets.send_message import send_message
 class News(commands.Cog):
     """Command to get the news"""
 
-    def __init__(self, client):
+    client: commands.Bot = None
+
+    def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
     load_dotenv()
-    debug_guilds = [int(getenv("DEBUG_GUILD"))]
+    debug_guilds = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
 
     # News command
     @commands.slash_command(
@@ -31,10 +33,10 @@ class News(commands.Cog):
         limit: discord.Option(int),
         sources: discord.Option(str),
         keyword: discord.Option(str),
-    ):
-        content = await api_request(interaction, sources, keyword)
+    ) -> None:
+        articles = await api_request(interaction, sources, keyword)
 
-        if content is None:
+        if articles is None:
             await send_message(
                 interaction,
                 "No articles found",
@@ -45,7 +47,7 @@ class News(commands.Cog):
 
             return
 
-        for article in content["articles"]:
+        for article in articles["articles"]:
             if limit == 0:
                 break
             elif limit > 5:
@@ -82,7 +84,7 @@ class News(commands.Cog):
                 color=0xFFFF00,
             )
             embed.set_author(name=name).set_image(url=url_to_image).set_footer(
-                text=f"Publié par {author}"
+                text=f"Published by {author}"
             )
 
             await interaction.response.send_message(embed=embed)
@@ -90,5 +92,5 @@ class News(commands.Cog):
             limit -= 1
 
 
-def setup(client):
+def setup(client: commands.Bot) -> None:
     client.add_cog(News(client))
