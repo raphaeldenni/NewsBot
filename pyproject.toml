@@ -5,7 +5,9 @@ package-mode = false
 python = "^3.8"
 py-cord = "^2.4.1"
 python-dotenv = "^1.0.0"
+aiohttp = "^3.9.4"
 requests = "^2.31.0"
+newsapi-python = "^0.2.7"
 
 [tool.poetry.group.dev.dependencies]
 icecream = "^2.0.0"
