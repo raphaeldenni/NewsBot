@@ -17,7 +17,7 @@ class Sources(commands.Cog):
         self.client = client
 
     load_dotenv()
-    debug_guilds = [int(getenv("DEBUG_GUILD"))]
+    debug_guilds = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
 
     @commands.slash_command(
         name="sources",
