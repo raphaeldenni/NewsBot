@@ -31,9 +31,9 @@ class News(commands.Cog):
     async def news(
         self,
         interaction,
-        limit: discord.Option(int),
         sources: discord.Option(str),
         keyword: discord.Option(str),
+        limit: discord.Option(int),
     ) -> None:
         api = NewsApiClient(api_key=getenv("NEWS_API_KEY"))
 
