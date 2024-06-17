@@ -16,17 +16,14 @@ def main() -> None:
     if token is None:
         raise ValueError("No token found")
 
-    client = commands.Bot(intents=discord.Intents.default())
+    # Create the bot
+    activity = discord.Activity(type=discord.ActivityType.watching, name="the news")
+    client = commands.Bot(intents=discord.Intents.default(), activity=activity)
 
     # Load commands and events
     for file in listdir("./cogs"):
         if file.endswith(".py"):
             client.load_extension("cogs." + file[:-3])
-
-    # Update the bot's status
-    client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching, name="the news")
-    )
 
     client.run(token)
 
