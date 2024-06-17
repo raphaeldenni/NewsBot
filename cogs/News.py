@@ -35,7 +35,7 @@ class News(commands.Cog):
         keyword: discord.Option(str),
         limit: discord.Option(int),
     ) -> None:
-        api = NewsApiClient(api_key=getenv("NEWS_API_KEY"))
+        api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
             articles = api.get_everything(q=keyword, sources=sources)

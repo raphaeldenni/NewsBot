@@ -25,7 +25,7 @@ class Sources(commands.Cog):
         guild_ids=debug_guilds,
     )
     async def sources(self, interaction) -> None:
-        api = NewsApiClient(api_key=getenv("NEWS_API_KEY"))
+        api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
             sources_request = api.get_sources()

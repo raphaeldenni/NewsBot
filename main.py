@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 def main() -> None:
     load_dotenv()
-    token = getenv("TOKEN")
+    token = getenv("BOT_TOKEN")
 
     if token is None:
         raise ValueError("No token found")
