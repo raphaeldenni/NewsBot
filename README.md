@@ -14,8 +14,8 @@ All of them are listed in `pyproject.toml` and `requirements.txt`
 
 You also need to provide 2 variables in a `.env` file:
 
-- `TOKEN` : a Discord's bot token
-- `API_KEY` : an api key from [News API]("https://newsapi.org/")
+- `BOT_TOKEN` : a Discord's bot token
+- `NEWSAPI_KEY` : an api key from [News API]("https://newsapi.org/")
 
 ## Installation
 
