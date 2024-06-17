@@ -1,12 +1,13 @@
 from datetime import datetime
 from os import getenv
 from time import sleep
+from json import loads
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from newsapi import NewsApiClient
 
-from assets.api_request import api_request
 from assets.send_message import send_message
 
 
@@ -34,7 +35,25 @@ class News(commands.Cog):
         sources: discord.Option(str),
         keyword: discord.Option(str),
     ) -> None:
-        articles = await api_request(interaction, sources, keyword)
+        api = NewsApiClient(api_key=getenv("NEWS_API_KEY"))
+
+        try:
+            articles = api.get_everything(q=keyword, sources=sources)
+
+        except Exception as e:
+            error_message = loads(e)["message"]
+
+            print(error_message)
+
+            await send_message(
+                interaction,
+                "Error",
+                error_message,
+                "error",
+                is_ephemeral=True,
+            )
+
+            return
 
         if articles is None:
             await send_message(
@@ -50,6 +69,7 @@ class News(commands.Cog):
         for article in articles["articles"]:
             if limit == 0:
                 break
+
             elif limit > 5:
                 await send_message(
                     interaction,

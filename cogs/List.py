@@ -2,6 +2,7 @@ from os import getenv
 
 from discord.ext import commands
 from dotenv import load_dotenv
+from newsapi import NewsApiClient
 
 from assets.send_message import send_message
 
@@ -23,10 +24,16 @@ class List(commands.Cog):
         guild_ids=debug_guilds,
     )
     async def slist(self, interaction) -> None:
+        api = NewsApiClient(api_key=getenv("NEWS_API_KEY"))
+
+        sources = api.get_sources()
+
+        print(sources)
+
         await send_message(
             interaction,
             "Here a list of possible sources :",
-            "",
+            sources["sources"],
             is_ephemeral=True,
         )
 
