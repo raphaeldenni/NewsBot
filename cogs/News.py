@@ -38,12 +38,10 @@ class News(commands.Cog):
         api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
-            articles = api.get_everything(q=keyword, sources=sources)
+            news_response = api.get_everything(q=keyword, sources=sources)
 
         except Exception as e:
             error_message = loads(e)["message"]
-
-            print(error_message)
 
             await send_message(
                 interaction,
@@ -55,18 +53,20 @@ class News(commands.Cog):
 
             return
 
-        if articles is None:
+        if news_response is None:
             await send_message(
                 interaction,
                 "No articles found",
-                "No articles found for this keyword and/or source.",
+                f"No articles found for the keyword '{keyword}' and/or source(s) '{sources}'.",
                 "info",
                 is_ephemeral=True,
             )
 
             return
 
-        for article in articles["articles"]:
+        articles = news_response["articles"]
+
+        for article in articles:
             if limit == 0:
                 break
 
@@ -83,28 +83,30 @@ class News(commands.Cog):
 
             sleep(1)
 
-            name = article["source"]["name"]
+            source = article["source"]["name"]
             author = article["author"]
             title = article["title"]
             description = article["description"]
-            url = article["url"]
-            url_to_image = article["urlToImage"]
-            published_at = article["publishedAt"]
+            link = article["url"]
+            photo = article["urlToImage"]
+            raw_timestamp = article["publishedAt"]
 
-            published_at = datetime.strptime(published_at, "%Y-%m-%dT%H:%M:%SZ")
+            timestamp = datetime.strptime(raw_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
             if author is None:
-                author = name
+                author = source
 
-            embed = discord.Embed(
-                title=title,
-                url=url,
-                description=description,
-                timestamp=published_at,
-                color=0xFFFF00,
-            )
-            embed.set_author(name=name).set_image(url=url_to_image).set_footer(
-                text=f"Published by {author}"
+            embed = (
+                discord.Embed(
+                    title=title,
+                    url=link,
+                    description=description,
+                    timestamp=timestamp,
+                    color=0xFFFF00,
+                )
+                .set_author(name=source)
+                .set_image(url=photo)
+                .set_footer(text=f"Published by {author}")
             )
 
             await interaction.response.send_message(embed=embed)

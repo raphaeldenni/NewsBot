@@ -28,7 +28,7 @@ class Sources(commands.Cog):
         api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
-            sources_request = api.get_sources()
+            sources_response = api.get_sources()
 
         except Exception as e:
             error_message = loads(e)["message"]
@@ -43,7 +43,7 @@ class Sources(commands.Cog):
                 is_ephemeral=True,
             )
 
-        if sources_request["status"] != "ok":
+        if sources_response["status"] != "ok":
             await send_message(
                 interaction,
                 "No sources list found",
@@ -52,7 +52,7 @@ class Sources(commands.Cog):
                 is_ephemeral=True,
             )
 
-        raw_sources = sources_request["sources"]
+        raw_sources = sources_response["sources"]
 
         sources = ""
 
