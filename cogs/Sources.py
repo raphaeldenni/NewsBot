@@ -11,20 +11,29 @@ from assets.send_message import send_message
 class Sources(commands.Cog):
     """Command to list the possible sources"""
 
+    # Initialize the client
     client: commands.Bot = None
 
     def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
-    load_dotenv()
-    debug_guilds = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+    # Define the slash command
+    slash_command_kwargs = {
+        "name": "sources",
+        "description": "List of possible sources",
+    }
 
-    @commands.slash_command(
-        name="sources",
-        description="A list of possible sources",
-        guild_ids=debug_guilds,
-    )
+    # Add the guild_ids if in debug mode
+    load_dotenv()
+    debug_guild = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+
+    if debug_guild:
+        slash_command_kwargs["guild_ids"] = debug_guild
+
+    # Sources command
+    @commands.slash_command(**slash_command_kwargs)
     async def sources(self, interaction) -> None:
+        # Get the sources trough the News API
         api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
@@ -52,6 +61,7 @@ class Sources(commands.Cog):
                 is_ephemeral=True,
             )
 
+        # Format the sources and send them
         raw_sources = sources_response["sources"]
 
         sources = ""

@@ -17,6 +17,10 @@ You also need to provide 2 variables in a `.env` file:
 - `BOT_TOKEN` : a Discord's bot token
 - `NEWSAPI_KEY` : an api key from [News API]("https://newsapi.org/")
 
+You can add a third one if your are in a dev environment:
+
+- `DEBUG_GUILD`: a debug guild ID
+
 ## Installation
 
 Don't forget to use Poetry integrated environments or venv with pip

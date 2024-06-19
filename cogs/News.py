@@ -14,20 +14,27 @@ from assets.send_message import send_message
 class News(commands.Cog):
     """Command to get the news"""
 
+    # Initialize the client
     client: commands.Bot = None
 
     def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
+    # Define the slash command
+    slash_command_kwargs = {
+        "name": "news",
+        "description": "Get the latest news",
+    }
+
+    # Add the guild_ids if in debug mode
     load_dotenv()
-    debug_guilds = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+    debug_guild = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+
+    if debug_guild:
+        slash_command_kwargs["guild_ids"] = debug_guild
 
     # News command
-    @commands.slash_command(
-        name="news",
-        description="Give fresh news",
-        guild_ids=debug_guilds,
-    )
+    @commands.slash_command(**slash_command_kwargs)
     async def news(
         self,
         interaction,
@@ -35,6 +42,7 @@ class News(commands.Cog):
         keyword: discord.Option(str),
         limit: discord.Option(int),
     ) -> None:
+        # Get the news trough the News API
         api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
 
         try:
@@ -64,6 +72,7 @@ class News(commands.Cog):
 
             return
 
+        # Get the articles and decompose them to a embed Discord message
         articles = news_response["articles"]
 
         for article in articles:

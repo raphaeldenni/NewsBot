@@ -9,19 +9,27 @@ from assets.send_message import send_message
 class Ping(commands.Cog):
     """Command to ping the bot"""
 
+    # Initialize the client
     client: commands.Bot = None
 
     def __init__(self, client: commands.Bot) -> None:
         self.client = client
 
-    load_dotenv()
-    debug_guilds = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+    # Define the slash command
+    slash_command_kwargs = {
+        "name": "ping",
+        "description": "Pong!",
+    }
 
-    @commands.slash_command(
-        name="ping",
-        description="Pong !",
-        guild_ids=debug_guilds,
-    )
+    # Add the guild_ids if in debug mode
+    load_dotenv()
+    debug_guild = [int(getenv("DEBUG_GUILD"))] if getenv("DEBUG_GUILD") else []
+
+    if debug_guild:
+        slash_command_kwargs["guild_ids"] = debug_guild
+
+    # Ping command
+    @commands.slash_command(**slash_command_kwargs)
     async def ping(self, interaction) -> None:
         # Calculate the latency
         latency = round(self.client.latency, 3) * 1000
@@ -29,7 +37,7 @@ class Ping(commands.Cog):
         # Send the latency
         await send_message(
             interaction,
-            "Pong ! :ping_pong:",
+            "Pong! :ping_pong:",
             f"{latency} ms of latency",
         )
 

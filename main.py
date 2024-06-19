@@ -14,7 +14,9 @@ def main() -> None:
     token = getenv("BOT_TOKEN")
 
     if token is None:
-        raise ValueError("No token found")
+        raise ValueError(
+            "No Discord app token found, please add a .env file with the BOT_TOKEN variable"
+        )
 
     # Create the bot
     activity = discord.Activity(type=discord.ActivityType.watching, name="the news")

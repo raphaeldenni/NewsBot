@@ -11,7 +11,7 @@ class Ready(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        print(f"{self.client.user} is ready and online!")
+        print(f"{self.client.user} online and ready!")
 
 
 def setup(client: commands.Bot) -> None:
