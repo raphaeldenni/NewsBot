@@ -1,18 +1,18 @@
-from discord.ext import commands
+import discord
 
 
-class Ready(commands.Cog):
+class Ready(discord.Cog):
     """Event when the bot is ready"""
 
-    client: commands.Bot = None
+    bot: discord.Bot = None
 
-    def __init__(self, client: commands.Bot) -> None:
-        self.client = client
+    def __init__(self, bot: discord.Bot) -> None:
+        self.bot = bot
 
-    @commands.Cog.listener()
+    @discord.Cog.listener()
     async def on_ready(self) -> None:
-        print(f"{self.client.user} online and ready!")
+        print(f"{self.bot.user} online and ready!")
 
 
-def setup(client: commands.Bot) -> None:
-    client.add_cog(Ready(client))
+def setup(bot: discord.Bot) -> None:
+    bot.add_cog(Ready(bot))

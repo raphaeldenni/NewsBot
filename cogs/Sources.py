@@ -1,21 +1,21 @@
-from os import getenv
-
-from discord.ext import commands
-from dotenv import load_dotenv
+import discord
 from newsapi import NewsApiClient
+
+from os import getenv
+from dotenv import load_dotenv
 from json import loads
 
 from assets.send_message import send_message
 
 
-class Sources(commands.Cog):
+class Sources(discord.Cog):
     """Command to list the possible sources"""
 
-    # Initialize the client
-    client: commands.Bot = None
+    # Initialize the bot
+    bot: discord.Bot = None
 
-    def __init__(self, client: commands.Bot) -> None:
-        self.client = client
+    def __init__(self, bot: discord.Bot) -> None:
+        self.bot = bot
 
     # Define the slash command
     slash_command_kwargs = {
@@ -31,7 +31,7 @@ class Sources(commands.Cog):
         slash_command_kwargs["guild_ids"] = debug_guild
 
     # Sources command
-    @commands.slash_command(**slash_command_kwargs)
+    @discord.slash_command(**slash_command_kwargs)
     async def sources(self, interaction) -> None:
         # Get the sources trough the News API
         api = NewsApiClient(api_key=getenv("NEWSAPI_KEY"))
@@ -80,5 +80,5 @@ class Sources(commands.Cog):
         )
 
 
-def setup(client: commands.Bot) -> None:
-    client.add_cog(Sources(client))
+def setup(bot: discord.Bot) -> None:
+    bot.add_cog(Sources(bot))

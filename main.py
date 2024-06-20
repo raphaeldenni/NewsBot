@@ -2,11 +2,9 @@
 # NewsBot by Raphaël Denni #
 # ======================== #
 
-from os import getenv, listdir
-
 import discord
-from discord.ext import commands
 from dotenv import load_dotenv
+from os import getenv, listdir
 
 
 def main() -> None:
@@ -20,14 +18,14 @@ def main() -> None:
 
     # Create the bot
     activity = discord.Activity(type=discord.ActivityType.watching, name="the news")
-    client = commands.Bot(intents=discord.Intents.default(), activity=activity)
+    bot = discord.Bot(intents=discord.Intents.default(), activity=activity)
 
     # Load commands and events
     for file in listdir("./cogs"):
         if file.endswith(".py"):
-            client.load_extension("cogs." + file[:-3])
+            bot.load_extension("cogs." + file[:-3])
 
-    client.run(token)
+    bot.run(token)
 
 
 if __name__ == "__main__":

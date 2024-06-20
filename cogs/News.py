@@ -1,24 +1,23 @@
-from datetime import datetime
-from os import getenv
-from time import sleep
-from json import loads
-
 import discord
-from discord.ext import commands
-from dotenv import load_dotenv
 from newsapi import NewsApiClient
+
+from os import getenv
+from dotenv import load_dotenv
+from json import loads
+from time import sleep
+from datetime import datetime
 
 from assets.send_message import send_message
 
 
-class News(commands.Cog):
+class News(discord.Cog):
     """Command to get the news"""
 
-    # Initialize the client
-    client: commands.Bot = None
+    # Initialize the bot
+    bot: discord.Bot = None
 
-    def __init__(self, client: commands.Bot) -> None:
-        self.client = client
+    def __init__(self, bot: discord.Bot) -> None:
+        self.bot = bot
 
     # Define the slash command
     slash_command_kwargs = {
@@ -34,7 +33,7 @@ class News(commands.Cog):
         slash_command_kwargs["guild_ids"] = debug_guild
 
     # News command
-    @commands.slash_command(**slash_command_kwargs)
+    @discord.slash_command(**slash_command_kwargs)
     async def news(
         self,
         interaction,
@@ -123,5 +122,5 @@ class News(commands.Cog):
             limit -= 1
 
 
-def setup(client: commands.Bot) -> None:
-    client.add_cog(News(client))
+def setup(bot: discord.Bot) -> None:
+    bot.add_cog(News(bot))

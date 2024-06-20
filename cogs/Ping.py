@@ -1,19 +1,19 @@
-from os import getenv
+import discord
 
-from discord.ext import commands
+from os import getenv
 from dotenv import load_dotenv
 
 from assets.send_message import send_message
 
 
-class Ping(commands.Cog):
+class Ping(discord.Cog):
     """Command to ping the bot"""
 
-    # Initialize the client
-    client: commands.Bot = None
+    # Initialize the bot
+    bot: discord.Bot = None
 
-    def __init__(self, client: commands.Bot) -> None:
-        self.client = client
+    def __init__(self, bot: discord.Bot) -> None:
+        self.bot = bot
 
     # Define the slash command
     slash_command_kwargs = {
@@ -29,10 +29,10 @@ class Ping(commands.Cog):
         slash_command_kwargs["guild_ids"] = debug_guild
 
     # Ping command
-    @commands.slash_command(**slash_command_kwargs)
+    @discord.slash_command(**slash_command_kwargs)
     async def ping(self, interaction) -> None:
         # Calculate the latency
-        latency = round(self.client.latency, 3) * 1000
+        latency = round(self.bot.latency, 3) * 1000
 
         # Send the latency
         await send_message(
@@ -42,5 +42,5 @@ class Ping(commands.Cog):
         )
 
 
-def setup(client: commands.Bot) -> None:
-    client.add_cog(Ping(client))
+def setup(bot: discord.Bot) -> None:
+    bot.add_cog(Ping(bot))
