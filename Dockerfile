@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.10-alpine
 
 ARG APP_USER=newsbot
 
@@ -6,9 +6,11 @@ RUN addgroup -S $APP_USER && adduser -S $APP_USER -G $APP_USER
 
 USER $APP_USER
 
-WORKDIR /app
+ENV PATH "${PATH}:/home/${APP_USER}/.local/bin"
 
-COPY requirements.txt /app/
+WORKDIR /home/${APP_USER}/app
+
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
